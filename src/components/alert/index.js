@@ -9,6 +9,10 @@ export default {
     alertState() {
       return !this.state || this.state === `default` ? `alert-success` : `alert-${this.state}`
     },
+    alertClass: function() {
+      var dismissible = this.dismissible ? 'alert-dismissible' : ''
+      return `alert ${this.alertState} ${dismissible} fade in`
+    }
   },
   props: {
     show: {

@@ -1,12 +1,15 @@
-<fieldset class="form-group {{inputState}}">
-    <label for="{{id}}" v-if="label" class="control-label">{{label}}</label>
-    <div class="inputClass">
-        <input 
-        	type="{{type}}" 
-        	class="form-control {{stateIconType}} {{inputSize}}" 
-        	id="{{id}}" 
-        	placeholder="{{placeholder}}" 
-        	v-model="model">
+<div :class="formGroupClass">
+    <label :for="id" v-if="label" :class="formLabelClass">{{label}}</label>
+    <div :class="formDivControlClass">
+        <input
+            :required="required"
+        	:type="type"
+        	:class="formControlClass"
+        	:id="id"
+        	:placeholder="placeholder"
+        	v-bind:value="value"
+        	v-on:input="onInput"
+            >
     </div>
     <small class="text-muted" v-if="description" v-html="description"></small>
-</fieldset>
+</div>

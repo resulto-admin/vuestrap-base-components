@@ -7,11 +7,20 @@ export default {
   template: template,
   replace: true,
   computed: {
+    formGroupClass() {
+      return `form-group ${this.inputState} ${this.extraGroupClass}`
+    },
+    formControlClass() {
+      return `form-control ${this.inputSize} ${this.extraControlClass}`
+    },
+    formDivControlClass() {
+      return this.extraDivControlClass
+    },
     allOptions(){
-        if (this.defaultOption.text && this.defaultOption.value) {
-            return [this.defaultOption].concat(this.options)
-        }
-        return this.options
+      if (this.defaultOption.text && this.defaultOption.value) {
+        return [this.defaultOption].concat(this.options)
+      }
+      return this.options
     },
   	inputState() {
       return !this.state || this.state === `default` ? `` : `has-${this.state}`
@@ -21,14 +30,33 @@ export default {
     },
   },
   props: {
-    model: {
-      twoWay: true,
+    value: {
       required: true
+    },
+    required: {
+      type: Boolean,
+      default: false
     },
     options: {
       type: Array,
       default: [],
       required: true,
+    },
+    formLabelClass: {
+      type: String,
+      default: "control-label"
+    },
+    extraGroupClass: {
+      type: String,
+      default: "",
+    },
+    extraControlClass: {
+      type: String,
+      default: "",
+    },
+    extraDivControlClass: {
+      type: String,
+      default: "",
     },
     id: {
       type: String,
@@ -36,7 +64,7 @@ export default {
     },
     label: {
       type: String,
-      default: false
+      default: ''
     },
     defaultOption: {
       type: Object,
@@ -46,7 +74,7 @@ export default {
     },
     description: {
       type: String,
-      default: false
+      default: ''
     },
     size: {
       type: String,
@@ -57,11 +85,9 @@ export default {
       default: ''
     },
   },
-  watch: {
-    model(val, oldVal) {
-      if (val === oldVal) return
-      // Dispatch an event from the current vm that propagates all the way up to it's $root
-      this.$dispatch('selected::option', val)
+  methods: {
+    onInput: function(event) {
+      this.$emit('input', event.target.value)
     }
   }
 }

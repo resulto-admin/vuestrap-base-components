@@ -7,6 +7,15 @@ export default {
   template: template,
   replace: true,
   computed: {
+    formGroupClass() {
+      return `form-group ${this.inputState} ${this.extraGroupClass}`
+    },
+    formControlClass() {
+      return `form-control ${this.stateIconType} ${this.inputSize} ${this.extraControlClass}`
+    },
+    formDivControlClass() {
+      return this.extraDivControlClass
+    },
     inputState() {
       return !this.state || this.state === `default` ? `` : `has-${this.state}`
     },
@@ -21,15 +30,33 @@ export default {
     }
   },
   props: {
-    model: {
-      twoWay: true,
-      required: true,
-      type: String
+    value: {
+      required: true
+    },
+    required: {
+      type: Boolean,
+      default: false
     },
     type: {
       type: String,
       default: 'text',
       required: true
+    },
+    formLabelClass: {
+      type: String,
+      default: "control-label"
+    },
+    extraGroupClass: {
+      type: String,
+      default: "",
+    },
+    extraControlClass: {
+      type: String,
+      default: "",
+    },
+    extraDivControlClass: {
+      type: String,
+      default: "",
     },
     id: {
       type: String,
@@ -57,7 +84,12 @@ export default {
     },
     stateIcon: {
       type: Boolean,
-      default: true
+      default: false
     },
   },
+  methods: {
+    onInput: function(event) {
+      this.$emit('input', event.target.value)
+    }
+  }
 }

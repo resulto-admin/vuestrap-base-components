@@ -1,8 +1,10 @@
-<fieldset class="form-group {{inputState}}">
-    <label for="{{id}}" v-if="label" class="control-label">{{label}}</label>
+<div :class="formGroupClass">
+    <label :for="id" v-if="label" :class="formLabelClass">{{label}}</label>
     <!-- single select -->
-    <select class="form-control {{inputSize}}" id="{{id}}" v-model="model" options="allOptions" v-if="!multiple">
-    	<option v-for="option in allOptions" v-bind:value="option.value">{{option.text}}</option>
-    </select>
+    <div :class="formDivControlClass">
+        <select :required="required" :class="formControlClass" :id="id" v-bind:value="value" v-on:input="onInput">
+            <option v-for="option in allOptions" v-bind:value="option.value">{{option.text}}</option>
+        </select>
+    </div>
     <small class="text-muted" v-if="description" v-html="description"></small>
-</fieldset>
+</div>

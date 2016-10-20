@@ -8,7 +8,8 @@ export default {
   replace: true,
   computed: {
     formGroupClass() {
-      return `form-group ${this.inputState} ${this.extraGroupClass}`
+      var formGroup = this.formGroupWrapper ? 'form-group' : '';
+      return `${formGroup} ${this.inputState} ${this.extraGroupClass}`
     },
     formControlClass() {
       return `form-control ${this.stateIconType} ${this.inputSize} ${this.extraControlClass}`
@@ -41,6 +42,10 @@ export default {
       type: String,
       default: 'text',
       required: true
+    },
+    formGroupWrapper: {
+      type: Boolean,
+      default: true
     },
     formLabelClass: {
       type: String,

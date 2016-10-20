@@ -1,5 +1,13 @@
-<fieldset class="form-group {{inputState}}">
-    <label for="{{id}}" v-if="label" class="control-label">{{label}}</label>
-    <textarea class="form-control" id="{{id}}" rows="{{rows}}" v-model="model"></textarea>
+<div :class="formGroupClass">
+    <label :for="id" v-if="label" :class="formLabelClass">{{label}}</label>
+    <div :class="formDivControlClass">
+        <textarea
+            :class="formControlClass"
+            :id="id"
+            :rows="rows"
+            :required="required"
+            v-bind:value="value"
+            v-on:input="onInput"></textarea>
+    </div>
     <small class="text-muted" v-if="description" v-html="description"></small>
-</fieldset>
+</div>

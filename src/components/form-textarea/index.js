@@ -10,11 +10,44 @@ export default {
     inputState() {
       return !this.state || this.state === `default` ? `` : `has-${this.state}`
     },
+    formGroupClass() {
+      var formGroup = this.formGroupWrapper ? 'form-group' : '';
+      return `${formGroup} ${this.inputState} ${this.extraGroupClass}`
+    },
+    formDivControlClass() {
+      return this.extraDivControlClass
+    },
+    formControlClass() {
+      return `form-control ${this.stateIconType} ${this.inputSize} ${this.extraControlClass}`
+    },
   },
   props: {
-    model: {
-      twoWay: true,
+    value: {
       required: true
+    },
+    formGroupWrapper: {
+      type: Boolean,
+      default: true
+    },
+    required: {
+      type: Boolean,
+      default: false
+    },
+    formLabelClass: {
+      type: String,
+      default: "control-label"
+    },
+    extraGroupClass: {
+      type: String,
+      default: "",
+    },
+    extraControlClass: {
+      type: String,
+      default: "",
+    },
+    extraDivControlClass: {
+      type: String,
+      default: "",
     },
     id: {
       type: String,
@@ -22,11 +55,11 @@ export default {
     },
     label: {
       type: String,
-      default: false
+      default: ''
     },
     description: {
       type: String,
-      default: false
+      default: ''
     },
     state: {
       type: String,
@@ -35,6 +68,11 @@ export default {
     rows: {
       type: Number,
       default: 3
+    }
+  },
+  methods: {
+    onInput: function(event) {
+      this.$emit('input', event.target.value)
     }
   }
 }

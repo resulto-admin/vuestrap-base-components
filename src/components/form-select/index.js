@@ -8,7 +8,8 @@ export default {
   replace: true,
   computed: {
     formGroupClass() {
-      return `form-group ${this.inputState} ${this.extraGroupClass}`
+      var formGroup = this.formGroupWrapper ? 'form-group' : ''
+      return `${formGroup} ${this.inputState} ${this.extraGroupClass}`
     },
     formControlClass() {
       return `form-control ${this.inputSize} ${this.extraControlClass}`
@@ -57,6 +58,10 @@ export default {
     extraDivControlClass: {
       type: String,
       default: "",
+    },
+    formGroupWrapper: {
+      type: Boolean,
+      default: true
     },
     id: {
       type: String,

@@ -2,7 +2,7 @@
     <label :for="id" v-if="label" :class="formLabelClass">{{label}}</label>
     <!-- single select -->
     <div :class="formDivControlClass">
-        <select :required="required" :class="formControlClass" :id="id" v-bind:value="value" v-on:input="onInput">
+        <select :required="required" :class="formControlClass" :name="name" :id="id" v-bind:value="value" v-on:input="onInput">
             <option v-for="option in allOptions" v-bind:value="option.value">{{option.text}}</option>
         </select>
     </div>

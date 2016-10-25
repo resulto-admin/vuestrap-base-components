@@ -53,6 +53,11 @@ export default {
       type: String,
       default: uniqueId
     },
+    name: {
+      type: String,
+      default: "",
+      required: true
+    },
     label: {
       type: String,
       default: ''

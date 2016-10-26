@@ -1,5 +1,5 @@
 <div :class="formGroupClass">
-    <label :for="id" v-if="label" :class="formLabelClass">{{label}}</label>
+    <label :for="id" v-if="label" :class="formLabelClass"><span v-if="showRequiredHint" v-show="required" class="text-danger">*</span>{{label}}</label>
     <div :class="formDivControlClass">
         <input
             :required="required"

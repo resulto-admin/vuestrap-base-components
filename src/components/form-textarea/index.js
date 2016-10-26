@@ -29,6 +29,10 @@ export default {
       type: Boolean,
       default: true
     },
+    showRequiredHint: {
+      type: Boolean,
+      default: true
+    },
     required: {
       type: Boolean,
       default: false

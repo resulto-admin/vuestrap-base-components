@@ -19,6 +19,23 @@ export default {
       animateModal: false,
     }
   },
+  computed: {
+    outerClasses: function() {
+      return {
+        fade: this.fade,
+        in: this.animateModal || !this.fade
+      }
+    },
+    innerClasses: function() {
+        return `modal-dialog  modal-${this.size}`
+    },
+    backdropClasses: function() {
+      return {
+        fade: this.fade,
+        in: this.animateBackdrop || !this.fade
+      }
+    },
+  },
   props: {
     id: {
       type: String,
@@ -35,9 +52,23 @@ export default {
     closeOnBackdrop: {
       type: Boolean,
       default: true,
+    },
+    eventHub: {
+      type: Object,
+      required: true
     }
   },
   methods: {
+    showModal(id) {
+      if (this.id === id) {
+        this.show()
+      }
+    },
+    hideModal(id) {
+      if (this.id === id) {
+        this.hide()
+      }
+    },
     show() {
       this.$el.style.display = 'block'
       this._body = document.querySelector('body')
@@ -48,7 +79,6 @@ export default {
         this._modalAnimation = setTimeout(() => {
           _this._body.classList.add('modal-open')
           _this.animateModal = true
-          _this.$dispatch('shown::modal')
         }, (_this.fade) ? TRANSITION_DURATION : 0)
       }, 0)
     },
@@ -63,7 +93,6 @@ export default {
           _this._body.classList.remove('modal-open')
           // no hide the modal wrapper
           _this.$el.style.display = 'none'
-          _this.$dispatch('hidden::modal')
         }, (_this.fade) ? TRANSITION_DURATION : 0)
       }, (_this.fade) ? TRANSITION_DURATION : 0)
     },
@@ -74,29 +103,25 @@ export default {
       }
     },
   },
-  events: {
-    // control modal from outside via events
-    'show::modal'(id) {
-      if (id === this.id) {
-        this.show()
-      }
-    },
-    'hide::modal'(id) {
-      if (id === this.id) {
-        this.hide()
-      }
-    }
+  created: function() {
+    this.eventHub.$on('show::modal', this.showModal)
+    this.eventHub.$on('hide::modal', this.hideModal)
   },
-  ready() {
-    // support for esc key press
-    document.addEventListener('keydown', (e) => {
-      const key = e.which || e.keyCode
-      if (key === 27) { // 27 is esc
-        this.hide()
-      }
+  mounted: function () {
+    this.$nextTick(function () {
+      document.addEventListener('keydown', (e) => {
+        const key = e.which || e.keyCode
+        if (key === 27) { // 27 is esc
+          this.hide()
+        }
+      })
     })
   },
-  destroyed() {
+  beforeDestroy: function() {
+    this.eventHub.$off('show::modal', this.showModal)
+    this.eventHub.$off('hide::modal', this.hideModal)
+  },
+  destroyed: function() {
     clearTimeout(this._modalAnimation)
   },
 }

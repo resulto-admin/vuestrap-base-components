@@ -14,6 +14,11 @@ export default {
       return `alert ${this.alertState} ${dismissible} fade in`
     }
   },
+  data: function() {
+    return {
+      internalShow: this.show
+    }
+  },
   props: {
     show: {
       type: Boolean,
@@ -32,9 +37,9 @@ export default {
   methods: {
     dismiss: function dismiss() {
       // hide an alert
-      this.show = false
+      this.internalShow = false
         // Dispatch an event from the current vm that propagates all the way up to its $root
-      this.$dispatch('dismissed::alert')
+        // Replace by bus if needed.
     },
   }
 }

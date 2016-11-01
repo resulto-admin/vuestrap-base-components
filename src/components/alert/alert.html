@@ -1,4 +1,4 @@
-<div v-bind:class="alertClass" role="alert" v-show="show">
+<div v-bind:class="alertClass" role="alert" v-show="internalShow">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close" v-if="dismissible" v-on:click.stop.prevent="dismiss">
         <span aria-hidden="true">&times;</span>
         <span class="sr-only">Close</span>

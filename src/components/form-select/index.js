@@ -38,6 +38,10 @@ export default {
       type: Boolean,
       default: false
     },
+    disabled: {
+      type: Boolean,
+      default: false
+    },
     showRequiredHint: {
       type: Boolean,
       default: true

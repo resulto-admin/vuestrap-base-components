@@ -20,6 +20,14 @@ export const collapse = {
     group: {
       type: String,
       default: '',
+    },
+    eventHub: {
+      type: Object,
+      required: true
+    },
+    initiallyOpen: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {
@@ -45,9 +53,7 @@ export const collapse = {
         this.$el.classList.add('collapse')
       }, TRANSITION_DURATION)
     },
-  },
-  events: {
-    'toggled::collapse'(data) {
+    collapse(data) {
       if (data.id && data.id === this.id && !data.group || data.group && data.group === this.group && !data.id) {
         if ((this.$el.className + ' ').indexOf(' in ') > -1) {
           this.hide()
@@ -56,7 +62,7 @@ export const collapse = {
         }
       }
     },
-    'toggled::accordion'(data) {
+    accordion(data) {
       // if id and group id is provided it means it is an accordion and takes priority over all
       if (data.id && data.group && data.group === this.group) {
         // for current element
@@ -75,10 +81,25 @@ export const collapse = {
           this.hide()
         }
       }
-    },
+    }
   },
-  destroyed() {
+  created: function() {
+    this.eventHub.$on('toggled::collapse', this.collapse)
+    this.eventHub.$on('toggled::accordion', this.accordion)
+  },
+  mounted: function() {
+    this.$nextTick(function() {
+      if (this.initiallyOpen) {
+        this.$el.classList.add('in');
+        const height = this.$el.scrollHeight
+        this.$el.style.height = height + 'px'
+      }
+    })
+  },
+  beforeDestroy: function() {
     clearTimeout(this._collapseAnimation)
+    this.eventHub.$off('toggled::collapse', this.collapse)
+    this.eventHub.$off('toggled::accordion', this.accordion)
   }
 }
 
@@ -97,6 +118,10 @@ export const collapseToggle = {
     targetGroup: {
       type: String,
       default: ''
+    },
+    eventHub: {
+      type: Object,
+      required: true
     }
   },
   methods: {
@@ -107,11 +132,9 @@ export const collapseToggle = {
       // broadcast accordion toggle if both id and group are set otherwise broadcast collapse
       // we also use dispatch to tell other components about the change
       if (this.target && this.targetGroup) {
-        this.$root.$broadcast('toggled::accordion', {id: this.target, group: this.targetGroup})
-        this.$root.$dispatch('toggled::accordion', {id: this.target, group: this.targetGroup})
+        this.eventHub.$emit('toggled::accordion', {id: this.target, group: this.targetGroup})
       } else {
-        this.$root.$broadcast('toggled::collapse', {id: this.target, group: this.targetGroup})
-        this.$root.$dispatch('toggled::collapse', {id: this.target, group: this.targetGroup})
+        this.eventHub.$emit('toggled::collapse', {id: this.target, group: this.targetGroup})
       }
     }
   },

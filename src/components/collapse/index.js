@@ -39,12 +39,12 @@ export const collapse = {
       this.$el.style.height = height + 'px'
       this._collapseAnimation = setTimeout(()=> {
         this.$el.classList.remove('collapsing')
-        this.$el.classList.add('collapse', 'in')
+        this.$el.classList.add('collapse', 'show')
       }, TRANSITION_DURATION)
     },
     hide() {
       this.$el.classList.remove('collapse')
-      this.$el.classList.remove('in')
+      this.$el.classList.remove('show')
       this.$el.classList.add('collapsing')
       this.$el.offsetWidth
       this.$el.style.height = '0px'
@@ -55,7 +55,7 @@ export const collapse = {
     },
     collapse(data) {
       if (data.id && data.id === this.id && !data.group || data.group && data.group === this.group && !data.id) {
-        if ((this.$el.className + ' ').indexOf(' in ') > -1) {
+        if ((this.$el.className + ' ').indexOf(' show ') > -1) {
           this.hide()
         } else {
           this.show()
@@ -68,14 +68,14 @@ export const collapse = {
         // for current element
         if (data.id === this.id) {
           // collapse if selected item is already opened
-          if ((this.$el.className + ' ').indexOf(' in ') > -1) {
+          if ((this.$el.className + ' ').indexOf(' show ') > -1) {
             this.hide()
           } else {
             this.show()
           }
         } else {
           // ignore if non-selected item is already closed
-          if ((this.$el.className + ' ').indexOf(' in ') === -1) return
+          if ((this.$el.className + ' ').indexOf(' show ') === -1) return
 
            // close all items in the group, and open the one selected
           this.hide()
@@ -90,7 +90,7 @@ export const collapse = {
   mounted: function() {
     this.$nextTick(function() {
       if (this.initiallyOpen) {
-        this.$el.classList.add('in');
+        this.$el.classList.add('show');
         const height = this.$el.scrollHeight
         this.$el.style.height = height + 'px'
       }

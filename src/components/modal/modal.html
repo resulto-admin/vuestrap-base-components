@@ -1,5 +1,5 @@
 <div style="display: none">
-    <div :id="id" class="modal" :class="outerClasses" style="display: block" v-on:click="onClickOut($event)">
+    <div :id="id" :class="outerClasses" style="display: block" v-on:click="onClickOut($event)">
         <div :class="innerClasses" role="document" style="z-index: 9999">
             <div class="modal-content">
                 <div class="modal-header">
@@ -14,5 +14,5 @@
             </div>
         </div>
     </div>
-    <div class="modal-backdrop" :class="backdropClasses"></div>
+    <div :class="backdropClasses"></div>
 </div>

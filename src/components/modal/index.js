@@ -22,18 +22,26 @@ export default {
   computed: {
     outerClasses: function() {
       return {
+        modal: true,
         fade: this.fade,
-        in: this.animateModal || !this.fade
+        show: this.animateModal || !this.fade
       }
     },
     innerClasses: function() {
-        return `modal-dialog  modal-${this.size}`
+        var classes = {};
+        classes["modal-dialog"] = true;
+        if (this.size) {
+            classes[`modal-${this.size}`] = true;
+        }
+        return classes;
     },
     backdropClasses: function() {
-      return {
+      var classes = {
         fade: this.fade,
-        in: this.animateBackdrop || !this.fade
-      }
+        show: this.animateBackdrop || !this.fade
+      };
+      classes["modal-backdrop"] = true;
+      return classes;
     },
   },
   props: {

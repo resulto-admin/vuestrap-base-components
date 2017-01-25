@@ -11,7 +11,7 @@ export default {
     },
     alertClass: function() {
       var dismissible = this.dismissible ? 'alert-dismissible' : ''
-      return `alert ${this.alertState} ${dismissible} fade in`
+      return `alert ${this.alertState} ${dismissible} fade show`
     }
   },
   data: function() {
